@@ -89,6 +89,10 @@
 {
     [super viewDidLoad];
     
+    [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}]; 
+    
     // Fullscreen
     if (self.imagePickerController.shouldChangeStatusBarStyle) {
         self.wantsFullScreenLayout = YES;
@@ -245,6 +249,11 @@
 - (void)didChangeLibrary:(NSNotification *)notification
 {
     [self loadAssetsGroups];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 @end

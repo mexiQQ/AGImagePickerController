@@ -156,7 +156,7 @@
 
 - (BOOL)agImagePickerController:(AGImagePickerController *)picker shouldShowToolbarForManagingTheSelectionInSelectionMode:(AGImagePickerControllerSelectionMode)selectionMode
 {
-    return (selectionMode == AGImagePickerControllerSelectionModeSingle ? NO : YES);    
+    return (selectionMode == AGImagePickerControllerSelectionModeSingle ? NO : YES);
 }
 
 - (AGImagePickerControllerSelectionBehaviorType)selectionBehaviorInSingleSelectionModeForAGImagePickerController:(AGImagePickerController *)picker

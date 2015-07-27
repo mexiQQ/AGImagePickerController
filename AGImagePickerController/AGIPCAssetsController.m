@@ -10,7 +10,7 @@
 //  
 
 #import "AGIPCAssetsController.h"
-
+#import "AGIPCGridCollectionCell.h"
 #import "AGImagePickerController+Helper.h"
 
 #import "AGIPCGridCell.h"
@@ -57,7 +57,7 @@
 
 #pragma mark - Properties
 
-@synthesize assetsGroup = _assetsGroup, assets = _assets, imagePickerController = _imagePickerController;
+@synthesize assetsGroup = _assetsGroup, assets = _assets, imagePickerController = _imagePickerController,mytableView = _mytableView;
 
 - (BOOL)toolbarHidden
 {
@@ -99,7 +99,7 @@
     return ret;
 }
 
-- (NSArray *)selectedAssets
+- (NSMutableArray *)selectedAssets
 {
     NSMutableArray *selectedAssets = [NSMutableArray array];
     
@@ -118,26 +118,45 @@
 
 - (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController andAssetsGroup:(ALAssetsGroup *)assetsGroup
 {
-    self = [super initWithStyle:UITableViewStylePlain];
+    self = [super init];
     if (self)
     {
+        self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+        self.view.backgroundColor = [UIColor whiteColor];
+
+        self.mytableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height - 35 -72)];
+        self.mytableView.allowsMultipleSelection = NO;
+        self.mytableView.allowsSelection = NO;
+        self.mytableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.mytableView.backgroundColor = [UIColor blackColor];
+        self.mytableView.delegate = self;
+        self.mytableView.dataSource = self;
+        [self.view addSubview:self.mytableView];
+        
+        UICollectionViewFlowLayout *flowLayout=[[UICollectionViewFlowLayout alloc] init];
+        flowLayout.itemSize=CGSizeMake(68,68);
+        flowLayout.sectionInset = UIEdgeInsetsMake(2, 5, 0, 0);
+        [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+        self.mycollectionView = [[UICollectionView alloc] initWithFrame:(CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 72, [UIScreen mainScreen].bounds.size.width, 72)) collectionViewLayout:flowLayout];
+        [self.mycollectionView registerClass:[AGIPCGridCollectionCell  class] forCellWithReuseIdentifier:@"simpleCell"];
+        self.mycollectionView.backgroundColor = [UIColor colorWithRed:20.0f/255 green:20.0/255 blue:20.0/255 alpha:1];
+        self.mycollectionView.delegate = self;
+        self.mycollectionView.dataSource = self;
+        [self.view addSubview:self.mycollectionView];
+        
+        // Navigation Bar Items
+        UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
+        doneButtonItem.enabled = NO;
+        doneButtonItem.tintColor = [UIColor whiteColor];
+        self.navigationItem.rightBarButtonItem = doneButtonItem;
+        
+        [self initBottomUI];
+        
         _assets = [[NSMutableArray alloc] init];
         self.assetsGroup = assetsGroup;
         self.imagePickerController = imagePickerController;
         self.title = NSLocalizedStringWithDefaultValue(@"AGIPC.Loading", nil, [NSBundle mainBundle], @"Loading...", nil);
         self.title = [self.assetsGroup valueForProperty:ALAssetsGroupPropertyName];
-        
-        self.tableView.allowsMultipleSelection = NO;
-        self.tableView.allowsSelection = NO;
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        
-        // Navigation Bar Items
-        UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
-        doneButtonItem.enabled = NO;
-        self.navigationItem.rightBarButtonItem = doneButtonItem;
-        
-        // Setup toolbar items
-        [self setupToolbarItems];
         
         // Start loading the assets
         [self loadAssets];
@@ -187,7 +206,7 @@
 {
     static NSString *CellIdentifier = @"Cell";
     
-    AGIPCGridCell *cell = (AGIPCGridCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    AGIPCGridCell *cell = (AGIPCGridCell *)[self.mytableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
     {		        
         cell = [[AGIPCGridCell alloc] initWithImagePickerController:self.imagePickerController items:[self itemsForRowAtIndexPath:indexPath] andReuseIdentifier:CellIdentifier];
@@ -197,6 +216,7 @@
 		cell.items = [self itemsForRowAtIndexPath:indexPath];
 	}
     
+    cell.backgroundColor = [UIColor blackColor];
     return cell;
 }
 
@@ -206,11 +226,40 @@
     return itemRect.size.height + itemRect.origin.y;
 }
 
+#pragma mark - UICollectionDataSource Methods
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return [AGIPCGridItem numberOfSelections];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *cellIdentifier = @"simpleCell";
+    AGIPCGridCollectionCell *cell = (AGIPCGridCollectionCell *)[collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+    
+    if(cell == nil)
+    {
+        cell = [[AGIPCGridCollectionCell alloc] initWithFrame:CGRectMake(0, 0, 68, 68)];
+    }
+    
+    ALAsset *tmpAsset = (ALAsset *)self.selectedAssets[indexPath.row];
+    cell.imgView.image = [UIImage imageWithCGImage:tmpAsset.thumbnail];
+    __weak typeof(self) weakSelf = self;
+    cell.rmAction = ^(){
+        for (AGIPCGridItem *gridItem in weakSelf.assets)
+        {
+            if(gridItem.asset == tmpAsset){
+                gridItem.selected = NO;
+            }
+        }
+        [weakSelf.mycollectionView reloadData];
+    };
+    return cell;
+}
+
 #pragma mark - View Lifecycle
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return YES;
+    return NO;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -280,6 +329,32 @@
     }
 }
 
+- (void)initBottomUI{
+    UIView *selectionInfoView = [[UIView alloc] initWithFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 35 -72, [UIScreen mainScreen].bounds.size.width, 35)];
+    
+    self.selectionInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 35)];
+    NSInteger maxNumber = _imagePickerController.maximumNumberOfPhotosToBeSelected;
+    self.selectionInfoLabel.text = [NSString stringWithFormat:@"已选中 0/%d 张",maxNumber];
+    self.selectionInfoLabel.textColor = [UIColor whiteColor];
+    
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width - 60 -10, 5, 60, 25)];
+    [cancelButton setTitle:@"开始制作" forState:UIControlStateNormal];
+    [cancelButton setTintColor:[UIColor whiteColor]];
+    [cancelButton.titleLabel setFont:[UIFont systemFontOfSize:12.0f]];
+    [cancelButton setBackgroundColor:[UIColor colorWithRed:211.0f/255 green:91.0f/255 blue:9.0f/255 alpha:1.0f]];
+    cancelButton.layer.masksToBounds = YES;
+    cancelButton.layer.cornerRadius = 8.0f;
+    cancelButton.layer.borderWidth = 2.0;
+    cancelButton.layer.borderColor = [[UIColor colorWithRed:211.0f/255 green:91.0f/255 blue:9.0f/255 alpha:1.0f] CGColor];
+    [cancelButton addTarget:self action:@selector(doneAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [selectionInfoView addSubview:cancelButton];
+    [selectionInfoView addSubview:self.selectionInfoLabel];
+    [selectionInfoView setBackgroundColor:[UIColor colorWithRed:20.0f/255 green:20.0/255 blue:20.0/255 alpha:1]];
+    
+    [self.view addSubview:selectionInfoView];
+}
+
 - (void)loadAssets
 {
     [self.assets removeAllObjects];
@@ -333,10 +408,8 @@
 
 - (void)reloadData
 {
-    // Don't display the select button until all the assets are loaded.
-    [self.navigationController setToolbarHidden:[self toolbarHidden] animated:YES];
-    
-    [self.tableView reloadData];
+    [self.mytableView reloadData];
+    [self.mycollectionView reloadData];
     
     //[self setTitle:[self.assetsGroup valueForProperty:ALAssetsGroupPropertyName]];
     [self changeSelectionInformation];
@@ -353,6 +426,11 @@
 - (void)doneAction:(id)sender
 {
     [self.imagePickerController performSelector:@selector(didFinishPickingAssets:) withObject:self.selectedAssets];
+}
+
+- (void)cancelAction:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)selectAllAction:(id)sender
@@ -393,18 +471,12 @@
 - (void)changeSelectionInformation
 {
     if (self.imagePickerController.shouldDisplaySelectionInformation ) {
-        if (0 == [AGIPCGridItem numberOfSelections] ) {
-            self.navigationController.navigationBar.topItem.prompt = nil;
-        } else {
-            //self.navigationController.navigationBar.topItem.prompt = [NSString stringWithFormat:@"(%d/%d)", [AGIPCGridItem numberOfSelections], self.assets.count];
-            // Display supports up to select several photos at the same time, springox(20131220)
             NSInteger maxNumber = _imagePickerController.maximumNumberOfPhotosToBeSelected;
             if (0 < maxNumber) {
-                self.navigationController.navigationBar.topItem.prompt = [NSString stringWithFormat:@"(%d/%d)", [AGIPCGridItem numberOfSelections], maxNumber];
+                self.selectionInfoLabel.text = [NSString stringWithFormat:@"已选中 %d/%d 张", [AGIPCGridItem numberOfSelections], maxNumber];
             } else {
-                self.navigationController.navigationBar.topItem.prompt = [NSString stringWithFormat:@"(%d/%d)", [AGIPCGridItem numberOfSelections], self.assets.count];
+                self.selectionInfoLabel.text = [NSString stringWithFormat:@"已选中 %d/%d 张", [AGIPCGridItem numberOfSelections], self.assets.count];
             }
-        }
     }
 }
 
@@ -414,6 +486,7 @@
 {
     self.navigationItem.rightBarButtonItem.enabled = (numberOfSelections.unsignedIntegerValue > 0);
     [self changeSelectionInformation];
+    [self.mycollectionView reloadData];
 }
 
 - (BOOL)agGridItemCanSelect:(AGIPCGridItem *)gridItem
@@ -459,4 +532,8 @@
     NSLog(@"here.");
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
 @end

@@ -10,8 +10,6 @@
 //  
 
 #import "AGIPCGridItem.h"
-
-
 #import "AGImagePickerController+Helper.h"
 
 @interface AGIPCGridItem ()

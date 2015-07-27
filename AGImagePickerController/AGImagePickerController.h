@@ -20,22 +20,29 @@
 
 @optional
 
-#pragma mark - Configuring Rows
+#pragma mark - Configuring Rows //配置每行显示几张照片
 - (NSUInteger)agImagePickerController:(AGImagePickerController *)picker
    numberOfItemsPerRowForDevice:(AGDeviceType)deviceType
         andInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 
-#pragma mark - Configuring Selections
+#pragma mark - Configuring Selections   //控制 selections
 - (AGImagePickerControllerSelectionBehaviorType)selectionBehaviorInSingleSelectionModeForAGImagePickerController:(AGImagePickerController *)picker;
 
 #pragma mark - Appearance Configuration
+
+//  是否显示选择图片信息
 - (BOOL)agImagePickerController:(AGImagePickerController *)picker
 shouldDisplaySelectionInformationInSelectionMode:(AGImagePickerControllerSelectionMode)selectionMode;
+
+//  是否显示底部 toolbar
 - (BOOL)agImagePickerController:(AGImagePickerController *)picker
 shouldShowToolbarForManagingTheSelectionInSelectionMode:(AGImagePickerControllerSelectionMode)selectionMode;
 
 #pragma mark - Managing Selections
+//  选择成功
 - (void)agImagePickerController:(AGImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info;
+
+//  选择失败
 - (void)agImagePickerController:(AGImagePickerController *)picker didFail:(NSError *)error;
 
 @end

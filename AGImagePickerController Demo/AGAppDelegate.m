@@ -21,7 +21,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.viewController = [[AGViewController alloc] initWithNibName:@"AGViewController_iPhone" bundle:nil];
+       self.viewController = [[AGViewController alloc] initWithNibName:@"AGViewController_iPhone" bundle:nil];
     } else {
         self.viewController = [[AGViewController alloc] initWithNibName:@"AGViewController_iPad" bundle:nil];
     }

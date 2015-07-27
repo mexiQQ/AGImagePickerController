@@ -16,11 +16,14 @@
 #import "AGImagePickerController.h"
 #import "AGIPCGridItem.h"
 
-@interface AGIPCAssetsController : UITableViewController<UITableViewDataSource, UITableViewDelegate, AGIPCGridItemDelegate>
+@interface AGIPCAssetsController : UIViewController<UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource,UICollectionViewDelegate,AGIPCGridItemDelegate>
 
-@property (strong) ALAssetsGroup *assetsGroup;
-@property (ag_weak, readonly) NSArray *selectedAssets;
-@property (strong) AGImagePickerController *imagePickerController;
+@property (nonatomic,strong) UITableView *mytableView;
+@property (nonatomic,strong) UICollectionView *mycollectionView;
+@property (nonatomic,strong) UILabel *selectionInfoLabel;
+@property (nonatomic,strong) ALAssetsGroup *assetsGroup;
+@property (ag_weak, readonly) NSMutableArray *selectedAssets;
+@property (nonatomic,strong) AGImagePickerController *imagePickerController;
 
 - (id)initWithImagePickerController:(AGImagePickerController *)imagePickerController andAssetsGroup:(ALAssetsGroup *)assetsGroup;
 
