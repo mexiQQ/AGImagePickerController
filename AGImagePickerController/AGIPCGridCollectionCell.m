@@ -8,6 +8,10 @@
 
 #import "AGIPCGridCollectionCell.h"
 
+@interface AGIPCGridCollectionCell()
+@property (nonatomic,assign) CGPoint origin;
+@end
+
 @implementation AGIPCGridCollectionCell
 
 - (id)initWithFrame:(CGRect)frame{
@@ -24,13 +28,35 @@
         self.removeButton.layer.cornerRadius = 10;
         self.removeButton.layer.borderWidth = 0;
         [self.removeButton addTarget:self action:@selector(removeAction:) forControlEvents:UIControlEventTouchUpInside];
+        
+//        UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc]
+//                                                        initWithTarget:self
+//                                                        action:@selector(handlePan:)];
+//        [self addGestureRecognizer:panGestureRecognizer];
     }
     [self addSubview:self.imgView];
     [self addSubview:self.removeButton];
+    
+    self.origin = self.center;
     return  self;
 }
 
 - (IBAction)removeAction:(id)sender{
     self.rmAction();
 }
+
+- (void) handlePan:(UIPanGestureRecognizer*) recognizer
+{
+    if([recognizer state] == UIGestureRecognizerStateEnded) {
+        self.center = self.origin;
+        self.alpha = 1.0;
+        return;
+    }
+
+    self.alpha = 0.4;
+    CGPoint translation = [recognizer translationInView:self];
+    self.center =  CGPointMake(self.center.x, self.center.y + translation.y);
+    [recognizer setTranslation:CGPointMake(0, 0) inView:self];
+}
+
 @end

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		54A1E5551882A31E00D556FD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A1E5541882A31E00D556FD /* CoreLocation.framework */; };
+		AFA649671B66661400AAF8AB /* AGIPCPhotoPreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA649661B66661300AAF8AB /* AGIPCPhotoPreViewController.m */; };
 		AFF107001B65DCD700DC9EDF /* AGIPCGridCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF106FF1B65DCD700DC9EDF /* AGIPCGridCollectionCell.m */; };
 		FE1E332914ED167800F6A6A2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332814ED167800F6A6A2 /* UIKit.framework */; };
 		FE1E332B14ED167800F6A6A2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332A14ED167800F6A6A2 /* Foundation.framework */; };
@@ -36,6 +37,8 @@
 
 /* Begin PBXFileReference section */
 		54A1E5541882A31E00D556FD /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AFA649651B66661300AAF8AB /* AGIPCPhotoPreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCPhotoPreViewController.h; sourceTree = "<group>"; };
+		AFA649661B66661300AAF8AB /* AGIPCPhotoPreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCPhotoPreViewController.m; sourceTree = "<group>"; };
 		AFF106FE1B65DCD700DC9EDF /* AGIPCGridCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCGridCollectionCell.h; sourceTree = "<group>"; };
 		AFF106FF1B65DCD700DC9EDF /* AGIPCGridCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCGridCollectionCell.m; sourceTree = "<group>"; };
 		FE1E332414ED167800F6A6A2 /* AGImagePickerController Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AGImagePickerController Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +179,8 @@
 				FE3851AE1504CF7B00A9F7F8 /* AGIPCToolbarItem.m */,
 				FE465F971590B25A00C30A1D /* ALAsset+AGIPC.h */,
 				FE465F981590B25A00C30A1D /* ALAsset+AGIPC.m */,
+				AFA649651B66661300AAF8AB /* AGIPCPhotoPreViewController.h */,
+				AFA649661B66661300AAF8AB /* AGIPCPhotoPreViewController.m */,
 			);
 			path = AGImagePickerController;
 			sourceTree = "<group>";
@@ -255,6 +260,7 @@
 				AFF107001B65DCD700DC9EDF /* AGIPCGridCollectionCell.m in Sources */,
 				FE1E333C14ED167800F6A6A2 /* AGViewController.m in Sources */,
 				FEA599CC14ED1C500057FF9C /* AGImagePickerController.m in Sources */,
+				AFA649671B66661400AAF8AB /* AGIPCPhotoPreViewController.m in Sources */,
 				FEA599E814ED38EE0057FF9C /* AGIPCAlbumsController.m in Sources */,
 				FECDC90114EDB9C30038006D /* AGIPCGridCell.m in Sources */,
 				FECDC90514EDBB690038006D /* AGIPCGridItem.m in Sources */,

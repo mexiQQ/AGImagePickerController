@@ -12,7 +12,7 @@
 #import "AGIPCAssetsController.h"
 #import "AGIPCGridCollectionCell.h"
 #import "AGImagePickerController+Helper.h"
-
+#import "AGIPCPhotoPreViewController.h"
 #import "AGIPCGridCell.h"
 #import "AGIPCToolbarItem.h"
 
@@ -144,8 +144,7 @@
         self.mycollectionView.dataSource = self;
         [self.view addSubview:self.mycollectionView];
         
-        // Navigation Bar Items
-        UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
+        UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"预览" style:UIBarButtonItemStylePlain target: self action:@selector(preViewPhoto:)];
         doneButtonItem.enabled = NO;
         doneButtonItem.tintColor = [UIColor whiteColor];
         self.navigationItem.rightBarButtonItem = doneButtonItem;
@@ -426,6 +425,12 @@
 - (void)doneAction:(id)sender
 {
     [self.imagePickerController performSelector:@selector(didFinishPickingAssets:) withObject:self.selectedAssets];
+}
+
+- (void)preViewPhoto:(id)sender
+{
+    AGIPCPhotoPreViewController *preViewController = [[AGIPCPhotoPreViewController alloc] initWithPhotoes:self.selectedAssets];
+    [self.navigationController pushViewController:preViewController animated:YES];
 }
 
 - (void)cancelAction:(id)sender

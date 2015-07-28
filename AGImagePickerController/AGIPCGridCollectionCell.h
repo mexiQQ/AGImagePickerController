@@ -14,5 +14,4 @@ typedef void(^removeAction)();
 @property (nonatomic,strong) UIImageView *imgView;
 @property (nonatomic,strong) UIButton *removeButton;
 @property (nonatomic,strong) removeAction rmAction;
-
 @end
