@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AGIPCPhotoPreViewController : UIViewController<UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+@interface AGIPCPhotoPreViewController : UIViewController<UIPageViewControllerDataSource>
 
 @property (nonatomic,strong) NSMutableArray *selectPhoto;
 @property (nonatomic,strong) UIPageViewController *pageController;

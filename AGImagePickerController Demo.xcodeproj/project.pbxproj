@@ -10,6 +10,7 @@
 		54A1E5551882A31E00D556FD /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A1E5541882A31E00D556FD /* CoreLocation.framework */; };
 		AFA649671B66661400AAF8AB /* AGIPCPhotoPreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFA649661B66661300AAF8AB /* AGIPCPhotoPreViewController.m */; };
 		AFF107001B65DCD700DC9EDF /* AGIPCGridCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF106FF1B65DCD700DC9EDF /* AGIPCGridCollectionCell.m */; };
+		F58D3BA81B68A05D00E1F99B /* AGIPCPhotoPreviewContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F58D3BA71B68A05D00E1F99B /* AGIPCPhotoPreviewContentViewController.m */; };
 		FE1E332914ED167800F6A6A2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332814ED167800F6A6A2 /* UIKit.framework */; };
 		FE1E332B14ED167800F6A6A2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE1E332A14ED167800F6A6A2 /* Foundation.framework */; };
 		FE1E333314ED167800F6A6A2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FE1E333114ED167800F6A6A2 /* InfoPlist.strings */; };
@@ -41,6 +42,8 @@
 		AFA649661B66661300AAF8AB /* AGIPCPhotoPreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCPhotoPreViewController.m; sourceTree = "<group>"; };
 		AFF106FE1B65DCD700DC9EDF /* AGIPCGridCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCGridCollectionCell.h; sourceTree = "<group>"; };
 		AFF106FF1B65DCD700DC9EDF /* AGIPCGridCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCGridCollectionCell.m; sourceTree = "<group>"; };
+		F58D3BA61B68A05D00E1F99B /* AGIPCPhotoPreviewContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGIPCPhotoPreviewContentViewController.h; sourceTree = "<group>"; };
+		F58D3BA71B68A05D00E1F99B /* AGIPCPhotoPreviewContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGIPCPhotoPreviewContentViewController.m; sourceTree = "<group>"; };
 		FE1E332414ED167800F6A6A2 /* AGImagePickerController Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AGImagePickerController Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE1E332814ED167800F6A6A2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FE1E332A14ED167800F6A6A2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -181,6 +184,8 @@
 				FE465F981590B25A00C30A1D /* ALAsset+AGIPC.m */,
 				AFA649651B66661300AAF8AB /* AGIPCPhotoPreViewController.h */,
 				AFA649661B66661300AAF8AB /* AGIPCPhotoPreViewController.m */,
+				F58D3BA61B68A05D00E1F99B /* AGIPCPhotoPreviewContentViewController.h */,
+				F58D3BA71B68A05D00E1F99B /* AGIPCPhotoPreviewContentViewController.m */,
 			);
 			path = AGImagePickerController;
 			sourceTree = "<group>";
@@ -258,6 +263,7 @@
 				FE1E333514ED167800F6A6A2 /* main.m in Sources */,
 				FE1E333914ED167800F6A6A2 /* AGAppDelegate.m in Sources */,
 				AFF107001B65DCD700DC9EDF /* AGIPCGridCollectionCell.m in Sources */,
+				F58D3BA81B68A05D00E1F99B /* AGIPCPhotoPreviewContentViewController.m in Sources */,
 				FE1E333C14ED167800F6A6A2 /* AGViewController.m in Sources */,
 				FEA599CC14ED1C500057FF9C /* AGImagePickerController.m in Sources */,
 				AFA649671B66661400AAF8AB /* AGIPCPhotoPreViewController.m in Sources */,
@@ -383,6 +389,7 @@
 				INFOPLIST_FILE = "AGImagePickerController Demo/AGImagePickerController Demo-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

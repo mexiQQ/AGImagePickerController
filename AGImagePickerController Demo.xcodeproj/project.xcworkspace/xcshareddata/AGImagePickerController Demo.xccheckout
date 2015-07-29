@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>FEE47384-C212-41C5-A596-EDC8FECFCE40</string>
 	<key>IDESourceControlProjectName</key>
-	<string>AGImagePickerController Demo</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>916A6739BEAD95ACD6FC77937085B88FCAF2E426</key>
 		<string>https://github.com/mexiQQ/AGImagePickerController.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>AGImagePickerController Demo.xcodeproj</string>
+	<string>AGImagePickerController Demo.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>916A6739BEAD95ACD6FC77937085B88FCAF2E426</key>

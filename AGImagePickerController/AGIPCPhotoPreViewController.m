@@ -8,6 +8,7 @@
 
 #import "AGIPCPhotoPreViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "AGIPCPhotoPreviewContentViewController.h"
 
 @interface AGIPCPhotoPreViewController ()
 @property (nonatomic,assign) NSInteger index;
@@ -23,18 +24,16 @@
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)loadView{
     self.view = [[UIView alloc]  initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     
     self.pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageController.delegate = self;
     self.pageController.dataSource = self;
     
     UIViewController *startingViewController = [self viewControllerAtIndex:0];
-    NSArray *viewControllers = @[ startingViewController ];
+    NSArray *viewControllers = @[startingViewController];
     [self.pageController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
-    self.pageController.view.frame =
-    CGRectMake(self.view.bounds.origin.x , self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height );
+    self.pageController.view.frame = CGRectMake(self.view.bounds.origin.x , self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height );
     
     UIPageControl *pageControl = [UIPageControl appearance];
     pageControl.hidden = YES;
@@ -63,41 +62,43 @@
 }
 
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index {
-    UIViewController *pageContentViewController =
-    [[UIViewController alloc] init];
-    pageContentViewController.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+    if ((self.selectPhoto.count == 0) || (index >= self.selectPhoto.count)) {
+        return nil;
+    }
     
     ALAsset *tmpAsset = (ALAsset *)self.selectPhoto[index];
-    imgView.image = [UIImage imageWithCGImage:tmpAsset.thumbnail];
-    [pageContentViewController.view addSubview:imgView];
-    pageContentViewController.view.backgroundColor = [UIColor blackColor];
+    AGIPCPhotoPreviewContentViewController *pageContentViewController = [[AGIPCPhotoPreviewContentViewController alloc] initWithALAsset:tmpAsset];
+    
+    pageContentViewController.pageIndex = (NSInteger *)index;
     return pageContentViewController;
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController{
-    if (self.index == 1) {
+    NSUInteger index = (int)((AGIPCPhotoPreviewContentViewController *)viewController).pageIndex;
+    if ((index == 0) || (index == NSNotFound)) {
         return nil;
     }
-    self.index--;
-    return [self viewControllerAtIndex:self.index - 1];
+    index--;
+    return [self viewControllerAtIndex:index];
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController{
-    if (self.index == self.selectPhoto.count) {
+    NSUInteger index = (int)((AGIPCPhotoPreviewContentViewController *)viewController).pageIndex;
+    if (index == NSNotFound) {
         return nil;
     }
-    self.index ++;
-    return [self viewControllerAtIndex:self.index - 1];
+    index++;
+    if (index == self.selectPhoto.count) {
+        return nil;
+    }
+    return [self viewControllerAtIndex:index];
 }
 
-- (NSInteger)presentationCountForPageViewController:
-(UIPageViewController *)pageViewController {
+- (NSInteger)presentationCountForPageViewController: (UIPageViewController *)pageViewController {
     return self.selectPhoto.count;
 }
 
-- (NSInteger)presentationIndexForPageViewController:
-(UIPageViewController *)pageViewController {
+- (NSInteger)presentationIndexForPageViewController: (UIPageViewController *)pageViewController {
     return 0;
 }
 
@@ -105,8 +106,7 @@
     [super didReceiveMemoryWarning];
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden{
     return YES;
 }
 @end
